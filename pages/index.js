@@ -21,74 +21,14 @@ export default function RecipeReviewCard() {
   const [state, dispatch] = useContext(Notescontext);
 
   useEffect(() => {
-    
+
   }, []);
-
-  function ToggleButtons() {
-
-    function buttonToggle () {
-      setEdit(!edit);
-    }
-
-    if(edit) {
-      return (
-        <div style={{textAlign: 'right'}}>
-        <Button type="primary" onClick={buttonToggle}>Save As</Button>
-        <Button style={{marginLeft: '10px'}} onClick={buttonToggle}>Cancel</Button>
-        </div>
-      )
-    }
-    if(!edit) {
-      return (
-        <div style={{textAlign: 'right'}}>
-        <Button type="primary" onClick={buttonToggle}>Edit</Button>
-        <Button style={{marginLeft: '10px'}} onClick={buttonToggle}>Delete</Button>
-        </div>
-      );
-    }
-  }
-
-  function ToggleShowNote() {
-    if(note.length == 0) {
-      return (
-        <div>
-          <h1 style={{ display: 'flex', height: '80vh', width: '100%', justifyContent: 'center',
-    alignItems: 'center'}}>No Note</h1>
-    <Button type="link">Add Note</Button>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-        {!edit ? (
-          <div>
-          <ToggleButtons />
-
-            <Divider />
-            <div style={{ height: '10vh', fontWeight: 'bold' }}>Header</div>
-            <div style={{ height: '50vh' }}>This is the body of a note</div>
-          </div>
-
-        ) : (
-          <div>
-          <ToggleButtons />
-
-            <Divider />
-            <Input placeholder="Basic usage" style={{ height: '10vh', marginBottom: '20px' }} value="Header" />
-            <TextArea style={{ height: '50vh' }} value="This is the body of a note" />
-          </div>
-
-        )}
-
-        </div>
-      );
-    }
-  }
-
 
   return (
     <div>
-    <ToggleShowNote />
+    <h1 style={{ display: 'flex', height: '80vh', width: '100%', justifyContent: 'center',
+    alignItems: 'center'}}>No Note</h1>
+    <Link href="/new-note"><Button type="link">Add Note</Button></Link>
     </div>
   );
 }
