@@ -1,41 +1,85 @@
 import axios from 'axios';
-import { Button, Divider, Input } from 'antd';
+import { Button, Divider, Input, message } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
-import Layout from '../components/layouts/DefaultLayout';
+import Layout from '../../components/layouts/DefaultLayout';
 import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import React, { useState, useEffect, createContext, useReducer } from 'react';
 import {counterReducer, initialstate} from '../../store/notestore';
+import { useRouter } from 'next/router'
 
 const { Header, Content, Footer, Sider } = Layout;
 const { TextArea } = Input;
 
-export const Notescontext = createContext();
+const Notescontext = createContext();
 
 export default function RecipeReviewCard() {
+  const router = useRouter();
+  const { id } = router.query;
 
   let [edit, setEdit] = useState(false);
-  const [state, dispatch] = useContext(Notescontext);
+  let [note, setNote] = useState('');
+  let [noteHead, setNoteHead] = useState('');
+  let [noteBody, setNoteBody] = useState('');
 
-  const storeValues = (state) => {
-    return state.value.map(v => <div>{v.clickedBall} {v.amount}</div>);
+  // const [state, dispatch] = useContext(Notescontext);
+
+  const [state, dispatch] = useReducer(counterReducer, initialstate);
+
+  useEffect(async () => {
+    if(id != undefined) {
+      let res = await axios.get(`note/${id}`, {headers: {token: localStorage.getItem('notesToken')}});
+      setNote(res.data);
+      setNoteHead(res.data.title);
+      setNoteBody(res.data.body);
+    }
+    
+    
+    
+  }, [id]);
+
+  if(note.length == 0) {
+    return (
+      <div>Loading...</div>
+    );
+  }
+  
+  function buttonToggle () {
+    setEdit(!edit);
   }
 
-  let choosenBalls = useSelector(storeValues);
+  async function saveNote() {
+    let res = await axios.put(`note/${id}`, {title: noteHead, body: noteBody}, {headers: {token: localStorage.getItem('notesToken')}});
+    console.log(res);
+    if(res.data.success) {
+      message.success('Update Successful');
+      setEdit(false);
+      // dispatch({type: 'UPDATE_NOTE'});
+      router.reload(window.location.pathname)
+      
+    }
+  }
 
-  let [note, setNote] = useState(['a']);
-  let [edit, setEdit] = useState(false);
+  async function deleteNote() {
+    let res = await axios.delete(`note/${id}`, {headers: {token: localStorage.getItem('notesToken')}});
+    console.log(res);
+    if(res.data.success) {
+      message.success('Delete Successful');
+      setEdit(false);
+      // dispatch({type: 'UPDATE_NOTE'});
+      router.push('/');
+      
+    }
+  }
 
   function ToggleButtons() {
 
-    function buttonToggle () {
-      setEdit(!edit);
-    }
+    
 
     if(edit) {
       return (
         <div style={{textAlign: 'right'}}>
-        <Button type="primary" onClick={buttonToggle}>Save As</Button>
+        <Button type="primary" onClick={() => {saveNote();}}>Save</Button>
         <Button style={{marginLeft: '10px'}} onClick={buttonToggle}>Cancel</Button>
         </div>
       )
@@ -44,53 +88,37 @@ export default function RecipeReviewCard() {
       return (
         <div style={{textAlign: 'right'}}>
         <Button type="primary" onClick={buttonToggle}>Edit</Button>
-        <Button style={{marginLeft: '10px'}} onClick={buttonToggle}>Delete</Button>
+        <Button style={{marginLeft: '10px'}} onClick={deleteNote}>Delete</Button>
         </div>
       );
     }
   }
 
-  function ToggleShowNote() {
-    if(note.length == 0) {
-      return (
-        <div>
-          <h1 style={{ display: 'flex', height: '80vh', width: '100%', justifyContent: 'center',
-    alignItems: 'center'}}>No Note</h1>
-    <Button type="link">Add Note</Button>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-        {!edit ? (
-          <div>
-          <ToggleButtons />
 
-            <Divider />
-            <div style={{ height: '10vh', fontWeight: 'bold' }}>Header</div>
-            <div style={{ height: '50vh' }}>This is the body of a note</div>
-          </div>
-
-        ) : (
-          <div>
-          <ToggleButtons />
-
-            <Divider />
-            <Input placeholder="Basic usage" style={{ height: '10vh', marginBottom: '20px' }} value="Header" />
-            <TextArea style={{ height: '50vh' }} value="This is the body of a note" />
-          </div>
-
-        )}
-
-        </div>
-      );
-    }
-  }
 
 
   return (
     <div>
-    <ToggleShowNote />
+    {!edit ? (
+      <div>
+      <ToggleButtons />
+
+        <Divider />
+        <div style={{ height: '10vh', fontWeight: 'bold' }}>{note.title}</div>
+        <div style={{ height: '50vh' }}>{note.body}</div>
+      </div>
+
+    ) : (
+      <div>
+      <ToggleButtons />
+
+        <Divider />
+        <Input onChange={(e) => {setNoteHead(e.target.value)}} style={{ height: '10vh', marginBottom: '20px' }} value={noteHead} />
+        <TextArea style={{ height: '50vh' }} onChange={(e) => {setNoteBody(e.target.value)}} value={noteBody} />
+      </div>
+
+    )}
+
     </div>
   );
 }
@@ -98,6 +126,7 @@ export default function RecipeReviewCard() {
 
 
 RecipeReviewCard.getLayout = function getLayout(page) {
+  const [state, dispatch] = useReducer(counterReducer, initialstate);
   return (
     <Notescontext.Provider value={{state, dispatch}}>
     <Layout>

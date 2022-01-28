@@ -15,7 +15,7 @@ export default function DefaultLayout({children}) {
 <main>
 
 <Row>
-  <Col xs={0} md={6} style={{height: '85vh', overflowY: 'auto', padding: '20px'}}><Sidebar addButton /></Col>
+  <Col xs={0} md={6} style={{height: '85vh', overflowY: 'auto', padding: '20px', borderRight: '1px solid #e5e5e5'}}><Sidebar addButton /></Col>
   <Col xs={24} md={18} style={{height: '85vh', overflowY: 'auto', padding: '20px'}}>{children}</Col>
 </Row>
 

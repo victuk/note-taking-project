@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Space, Button, Row, Col, Drawer } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
 import Sidebar from '../Sidebar';
 import Link from 'next/link';
+import axios from 'axios';
 
 export default function ResponsiveAppBar () {
 
+
   const [visible, setVisible] = useState(false);
+  let [name, setName] = useState('');
   
   const showDrawer = () => {
     setVisible(true);
@@ -15,6 +18,11 @@ export default function ResponsiveAppBar () {
   const onClose = () => {
     setVisible(false);
   };
+
+  useEffect(async () => {
+    let res = await axios.get('users/profile', {headers: {token: localStorage.getItem('notesToken')}});
+    setName(res.data.user.fullName);
+  });
 
   return (
     <div style={{height: '10vh',
@@ -30,11 +38,11 @@ export default function ResponsiveAppBar () {
     justifyContent: 'space-between'
   }}>
       <h2 style={{color: '#1890ff'}}>VNote</h2>
-      <div className="show-on-desktop">Welcome Victor <Button type="primary">Log Out</Button></div>
+      <div className="show-on-desktop">Welcome {name} <Link href='/profile/'><Button type="primary">View Profile</Button></Link> <Button type="default">Log Out</Button></div>
       <div className="show-on-mobile"><Button type="link" onClick={showDrawer}>
         <MenuOutlined />
       </Button></div>
-      <Drawer title="Welcome Victor" placement="right" onClose={onClose} visible={visible}>
+      <Drawer title={'Welcome ' + name} placement="right" onClose={onClose} visible={visible}>
       <p><Button type="primary" style={{ width: '100%' }} onClick={showDrawer}>Add Note</Button></p>
         <p>
         <Row gutter={16}>

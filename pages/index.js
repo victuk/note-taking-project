@@ -1,8 +1,9 @@
-import React, { useState, useEffect, createContext, useReducer } from 'react';
+import React, { useState, useEffect, useContext, createContext, useReducer } from 'react';
 import axios from 'axios';
 import { Button, Divider, Input } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Provider, useSelector } from 'react-redux';
 import store from '../store/notestore';
 import Layout from '../components/layouts/DefaultLayout';
 import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
@@ -11,24 +12,20 @@ import {counterReducer, initialstate} from '../store/notestore';
 const { Header, Content, Footer, Sider } = Layout;
 const { TextArea } = Input;
 
-export const Notescontext = createContext();
+
 
 
 export default function RecipeReviewCard() {
 
-  let [note, setNote] = useState([]);
-  let [edit, setEdit] = useState(false);
-  const [state, dispatch] = useContext(Notescontext);
-
-  useEffect(() => {
-
-  }, []);
 
   return (
     <div>
-    <h1 style={{ display: 'flex', height: '80vh', width: '100%', justifyContent: 'center',
-    alignItems: 'center'}}>No Note</h1>
-    <Link href="/new-note"><Button type="link">Add Note</Button></Link>
+    <div style={{ display: 'flex', height: '80vh', width: '100%', justifyContent: 'center',
+    alignItems: 'center', flexDirection: 'column'}}>
+      <h1>No Note</h1>
+      <Link href="/new-note"><Button type="primary">Add Note</Button></Link>
+      </div>
+    
     </div>
   );
 }
@@ -36,12 +33,18 @@ export default function RecipeReviewCard() {
 
 
 RecipeReviewCard.getLayout = function getLayout(page) {
-  const [state, dispatch] = useReducer(counterReducer, initialstate);
   return (
-    <Notescontext.Provider value={{state, dispatch}}>
+    <Provider store={store}>
     <Layout>
       {page}
     </Layout>
-    </Notescontext.Provider>
+    </Provider>
   )
 }
+
+// export async function getServerSideProps(context) {
+//   {store.dispatch({type: 'UPDATE_NOTE', payload: []})}
+//   return {
+//     props: {}, // will be passed to the page component as props
+//   }
+// }
