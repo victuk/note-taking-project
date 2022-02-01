@@ -31,9 +31,7 @@ export default function RecipeReviewCard() {
     console.log(res);
     if(res.status == 200) {
       message.success('Success');
-      updateStore();
-
-      // router.push('/');
+      router.push('/note/' + res.data.newNote._id);
     }
   }
 

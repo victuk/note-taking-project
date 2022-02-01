@@ -54,7 +54,6 @@ export default function RecipeReviewCard() {
     if(res.data.success) {
       message.success('Update Successful');
       setEdit(false);
-      // dispatch({type: 'UPDATE_NOTE'});
       router.reload(window.location.pathname)
       
     }
@@ -66,7 +65,6 @@ export default function RecipeReviewCard() {
     if(res.data.success) {
       message.success('Delete Successful');
       setEdit(false);
-      // dispatch({type: 'UPDATE_NOTE'});
       router.push('/');
       
     }

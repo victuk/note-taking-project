@@ -37,7 +37,7 @@ export default function ResponsiveAppBar () {
     marginBottom: '5vh',
     justifyContent: 'space-between'
   }}>
-      <h2 style={{color: '#1890ff'}}>VNote</h2>
+      <h2 style={{color: '#1890ff'}}><Link href="/">VNote</Link></h2>
       <div className="show-on-desktop">Welcome {name} <Link href='/profile/'><Button type="primary">View Profile</Button></Link> <Button type="default">Log Out</Button></div>
       <div className="show-on-mobile"><Button type="link" onClick={showDrawer}>
         <MenuOutlined />

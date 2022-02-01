@@ -11,7 +11,7 @@ const Notescontext = createContext();
 
 
 
-function Sidebar (props, {datan}) {
+function Sidebar (props) {
 
   let [data, setData] = useState([]);
   // const updateNote = () => {
@@ -26,8 +26,9 @@ function Sidebar (props, {datan}) {
   }
 
   useEffect(async () => {
-    a();
-  }, [val]);
+    let res = await axios.get('notes', {headers: {token: localStorage.getItem('notesToken')}});
+    setData(res.data);
+  }, []);
   
   
 
@@ -80,3 +81,11 @@ export default function sendThis() {
 
   )
 }
+
+// export async function getStaticProps() {
+//   // Fetch data from external API
+//   let res = await axios.get('notes', {headers: {token: localStorage.getItem('notesToken')}});
+
+//   // Pass data to the page via props
+//   return { props: res }
+// }
