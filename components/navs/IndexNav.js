@@ -6,7 +6,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import { HomeFilled } from '@ant-design/icons';
 
-export default function ResponsiveAppBar () {
+export default function ResponsiveAppBar() {
 
 
   const [visible, setVisible] = useState(false);
@@ -26,38 +26,39 @@ export default function ResponsiveAppBar () {
   // });
 
   return (
-    <div style={{height: '8vh',
-    display: 'flex',
-    width: '100%',
-    padding: '10px 20px',
-    flexDirection: 'row',
-    zIndex: '100',
-    minHeight: '50px',
-    justifyContent: 'space-between'
-  }}>
-      <Link href="/" passHref><h2 style={{color: 'white', zIndex: '100', pointer: 'cursor'}}>VNote</h2></Link>
-      <div style={{color: 'white', zIndex: '100'}}> 
-      <Link href='/' passHref><Button type="link"><HomeFilled /></Button></Link>
-       <Link href='/about' passHref><Button type="link" style={{border: '1px solid blue'}}>About</Button></Link></div>
+    <div style={{
+      height: '8vh',
+      display: 'flex',
+      width: '100%',
+      padding: '10px 20px',
+      flexDirection: 'row',
+      zIndex: '100',
+      minHeight: '50px',
+      justifyContent: 'space-between'
+    }}>
+      <Link href="/" passHref><h2 style={{ color: 'white', zIndex: '100', pointer: 'cursor' }}>VNote</h2></Link>
+      <div style={{ color: 'white', zIndex: '100' }}>
+        <Link href='/' passHref><Button type="link"><HomeFilled /></Button></Link>
+        <Link href='/about' passHref><Button type="link" style={{ border: '1px solid blue' }}>About</Button></Link></div>
       <style jsx>
         {`
 
-          .space-align-container {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-}
-.space-align-block {
-  flex: none;
-  margin: 8px 4px;
-  padding: 4px;
-  border: 1px solid #40a9ff;
-}
-.space-align-block .mock-block {
-  display: inline-block;
-  padding: 32px 8px 16px;
-  background: rgba(150, 150, 150, 0.2);
-}
+        .space-align-container {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: flex-start;
+        }
+        .space-align-block {
+          flex: none;
+          margin: 8px 4px;
+          padding: 4px;
+          border: 1px solid #40a9ff;
+        }
+        .space-align-block .mock-block {
+          display: inline-block;
+          padding: 32px 8px 16px;
+          background: rgba(150, 150, 150, 0.2);
+        }
 
           `}
       </style>
