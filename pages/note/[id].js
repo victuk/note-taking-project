@@ -6,7 +6,8 @@ import Layout from '../../components/layouts/DefaultLayout';
 import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import React, { useState, useEffect, createContext, useReducer } from 'react';
 import {counterReducer, initialstate} from '../../store/notestore';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
+import loginCheck from '../../services/checkIfLoggedIn';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { TextArea } = Input;
@@ -24,18 +25,23 @@ export default function RecipeReviewCard() {
 
   // const [state, dispatch] = useContext(Notescontext);
 
-  const [state, dispatch] = useReducer(counterReducer, initialstate);
+  // const [state, dispatch] = useReducer(counterReducer, initialstate);
 
   useEffect(async () => {
-    if(id != undefined) {
-      let res = await axios.get(`note/${id}`, {headers: {token: localStorage.getItem('notesToken')}});
-      setNote(res.data);
-      setNoteHead(res.data.title);
-      setNoteBody(res.data.body);
+    let isLoggedIn = await loginCheck();
+    if(isLoggedIn) {
+      if(id != undefined) {
+        let res = await axios.get(`note/${id}`, {headers: {token: localStorage.getItem('notesToken')}});
+        setNote(res.data);
+        setNoteHead(res.data.title);
+        setNoteBody(res.data.body);
+      }
+    } else {
+      return router.push('/');
     }
+
     
-    
-    
+
   }, [id]);
 
   if(note.length == 0) {
@@ -43,7 +49,7 @@ export default function RecipeReviewCard() {
       <div>Loading...</div>
     );
   }
-  
+
   function buttonToggle () {
     setEdit(!edit);
   }
@@ -55,7 +61,7 @@ export default function RecipeReviewCard() {
       message.success('Update Successful');
       setEdit(false);
       router.reload(window.location.pathname)
-      
+
     }
   }
 
@@ -65,14 +71,14 @@ export default function RecipeReviewCard() {
     if(res.data.success) {
       message.success('Delete Successful');
       setEdit(false);
-      router.push('/');
-      
+      router.push('/notes');
+
     }
   }
 
   function ToggleButtons() {
 
-    
+
 
     if(edit) {
       return (

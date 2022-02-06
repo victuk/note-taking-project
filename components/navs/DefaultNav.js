@@ -4,13 +4,16 @@ import { MenuOutlined } from '@ant-design/icons';
 import Sidebar from '../Sidebar';
 import Link from 'next/link';
 import axios from 'axios';
+import titleCase from '../../services/capitalizeWords';
+import { useRouter } from 'next/router';
+import loginCheck from '../../services/checkIfLoggedIn';
 
 export default function ResponsiveAppBar () {
-
+  const router = useRouter();
 
   const [visible, setVisible] = useState(false);
-  let [name, setName] = useState('');
-  
+  let [name, setName] = useState('user');
+
   const showDrawer = () => {
     setVisible(true);
   };
@@ -20,12 +23,21 @@ export default function ResponsiveAppBar () {
   };
 
   useEffect(async () => {
-    let res = await axios.get('users/profile', {headers: {token: localStorage.getItem('notesToken')}});
-    setName(res.data.user.fullName);
+    let isLoggedIn = await loginCheck();
+    if(isLoggedIn) {
+      let res = await axios.get('users/profile', {headers: {token: localStorage.getItem('notesToken')}});
+    let cappedName = res.data.user.fullName;
+    setName(titleCase(cappedName));
+    }
   });
 
+  function logOut() {
+    localStorage.removeItem('notesToken');
+    router.push('/');
+  }
+
   return (
-    <div style={{height: '10vh',
+    <div style={{height: '8vh',
     display: 'flex',
     width: '100%',
     padding: '10px 20px',
@@ -34,23 +46,23 @@ export default function ResponsiveAppBar () {
     zIndex: '100',
     minHeight: '50px',
     borderBottom: '1px solid #e5e5e5',
-    marginBottom: '5vh',
     justifyContent: 'space-between'
   }}>
-      <h2 style={{color: '#1890ff'}}><Link href="/">VNote</Link></h2>
-      <div className="show-on-desktop">Welcome {name} <Link href='/profile/'><Button type="primary">View Profile</Button></Link> <Button type="default">Log Out</Button></div>
+      <h2 style={{color: '#1890ff'}}><Link href="/notes">VNote</Link></h2>
+      <div className="show-on-desktop">Welcome {name} <Link href='/profile/'><Button type="primary">View Profile</Button></Link> <Button type="default" onClick={logOut}>Log Out</Button></div>
       <div className="show-on-mobile"><Button type="link" onClick={showDrawer}>
         <MenuOutlined />
       </Button></div>
       <Drawer title={'Welcome ' + name} placement="right" onClose={onClose} visible={visible}>
-      <p><Button type="primary" style={{ width: '100%' }} onClick={showDrawer}>Add Note</Button></p>
+      
+      <p><Link href='/new-note'><Button type="primary" style={{ width: '100%' }}>Add Note</Button></Link></p>
         <p>
         <Row gutter={16}>
-          <Col span={12}><Link href="/new-note"><Button type="primary" style={{ width: '100%' }}>View Profile</Button></Link></Col>
-          <Col span={12}><Button type="default" style={{ width: '100%' }} onClick={showDrawer}>Log Out</Button></Col>
+          <Col span={12}><Link href="/profile"><Button type="primary" style={{ width: '100%' }}>View Profile</Button></Link></Col>
+          <Col span={12}><Button type="default" style={{ width: '100%' }} onClick={logOut}>Log Out</Button></Col>
         </Row>
         </p>
-        <p><Sidebar /></p>
+        <div><Sidebar /></div>
       </Drawer>
       <style jsx>
         {`

@@ -6,6 +6,8 @@ import Image from 'next/image';
 import { Button, Upload, Input, Form } from 'antd';
 import Layout from '../../components/layouts/DefaultLayout';
 import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
+import titleCase from '../../services/capitalizeWords';
+import loginCheck from '../../services/checkIfLoggedIn';
 
 export default function Post() {
   const router = useRouter();
@@ -59,16 +61,21 @@ export default function Post() {
 
   async function fetchDetails() {
     let user = (await axios.get('users/profile', {headers: {token: localStorage.getItem('notesToken')}})).data;
-    console.log(user.user);
     if(user) {
       setUserDetails(user.user);
-      setNewName(user.user.fullName)
+      setNewName(titleCase(user.user.fullName))
     }
     // console.log(router.query.id);
   }
 
-  useEffect(() => {
-    fetchDetails()
+  useEffect(async () => {
+    let isLoggedIn = await loginCheck();
+    if(isLoggedIn) {
+      fetchDetails();
+    } else {
+      return router.push('/');
+    }
+    
   }, []);
 
   return(
@@ -77,15 +84,15 @@ export default function Post() {
 <div style={{ display: 'flex', height: '80vh', width: '100%', justifyContent: 'center',
     alignItems: 'center', flexDirection: 'column'}}>
       {userDetails.picture ? (
-        <div>
+        <div style={{marginBottom: '20px'}}>
           <img src={userDetails.picture} style={{borderRadius: '50%', width: '100px', height:'100px'}} />
         </div>
       ) : (
-        <div style={{marginBottom: '20px'}}>
+        <div>
           <img src="/avatar.webp" style={{borderRadius: '50%', width: '100px', height:'100px'}} />
         </div>
       )}
-<Form>
+{/* <Form>
 <Form.Item
         name="upload"
         valuePropName="file"
@@ -95,17 +102,19 @@ export default function Post() {
           <Button icon={<UploadOutlined />}>Change</Button>
         </Upload>
       </Form.Item>
-      </Form>
+      </Form> */}
 
-      <Link href="/new-note"><Button type="primary">Edit Profile Picture</Button></Link>
+      {/* <Link href="/new-note"><Button type="primary">Edit Profile Picture</Button></Link> */}
       {fullNameState ? (
         <div>
-          <Input value={newName} onChange={(e) => {setNewName(e.target.value)}} /> <Button type="primary" onClick={updateName}>Update Name</Button>
+          <Input value={newName} onChange={(e) => {setNewName(e.target.value)}} /> 
+          {/* <Button type="primary" onClick={updateName}>Update Name</Button> */}
         </div>
         
       ) : (
         <div>
-          <h2>Name: {userDetails.fullName}</h2> <Button type="primary" onClick={() => {editFullName(true)}}>Change Name</Button>
+          <h2>Name: {newName}</h2> 
+          {/* <Button type="primary" onClick={() => {editFullName(true)}}>Change Name</Button> */}
         </div>
       )}
       

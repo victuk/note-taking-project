@@ -9,6 +9,7 @@ import Layout from '../components/layouts/DefaultLayout';
 import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
 import {counterReducer, initialstate} from '../store/notestore';
+import loginCheck from '../services/checkIfLoggedIn';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { TextArea } = Input;
@@ -20,11 +21,11 @@ export default function RecipeReviewCard() {
 
   let [noteHead, setNoteHead] = useState('');
   let [noteBody, setNoteBody] = useState('');
-
-  function updateStore() {
-    {store.dispatch({type: 'UPDATE_NOTE', payload: []})};
-    console.log('Updated');
-  }
+  // 
+  // function updateStore() {
+  //   {store.dispatch({type: 'UPDATE_NOTE', payload: []})};
+  //   console.log('Updated');
+  // }
 
   async function addNote() {
     let res = await axios.post('/note', {title: noteHead, body: noteBody}, {headers: {token: localStorage.getItem('notesToken')}});
@@ -35,7 +36,12 @@ export default function RecipeReviewCard() {
     }
   }
 
-  
+  useEffect(async () => {
+    let isLoggedIn = await loginCheck();
+    if(!isLoggedIn) {
+      return router.push('/');
+    }
+  });
 
   return (
     <div>

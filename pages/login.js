@@ -11,16 +11,14 @@ export default function RecipeReviewCard() {
   const router = useRouter();
   let [processing, setProcessing] = useState(false);
   const onFinish = async (values) => {
-   console.log('Success:', values);
    try{
     let res = await axios.post('login', values);
-    console.log(res);
     setProcessing(true);
     if(res.status == 200) {
       message.success('Success');
       setProcessing(false);
       localStorage.setItem('notesToken', res.data.token);
-      router.push('/');
+      router.push('/notes');
     }
    } catch (e) {
     message.error('An error occured');

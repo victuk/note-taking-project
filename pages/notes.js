@@ -1,37 +1,43 @@
 import React, { useState, useEffect, useContext, createContext, useReducer } from 'react';
 import axios from 'axios';
-import { Button, Divider, Input, Typography } from 'antd';
+import { Button, Divider, Input } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Provider, useSelector } from 'react-redux';
 import store from '../store/notestore';
-import Layout from '../components/layouts/IndexLayout';
+import Layout from '../components/layouts/DefaultLayout';
 import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import {counterReducer, initialstate} from '../store/notestore';
 import loginCheck from '../services/checkIfLoggedIn';
 import { useRouter } from 'next/router';
 
-// const { Header, Content, Footer, Sider } = Layout;
-// const { TextArea } = Input;
-const { Title } = Typography;
+
+const { Header, Content, Footer, Sider } = Layout;
+const { TextArea } = Input;
+
 
 
 
 export default function RecipeReviewCard() {
+  const router = useRouter();
+  useEffect(async () => {
+    let isLoggedIn = await loginCheck()
+    if(isLoggedIn) {
+      
+    } else {
+      return router.push('/');
+    }
+  });
+
 
   return (
     <div>
+    <div style={{ display: 'flex', height: '80vh', width: '100%', justifyContent: 'center',
+    alignItems: 'center', flexDirection: 'column'}}>
+      <h1>No Note</h1>
+      <Link href="/new-note"><Button type="primary">Add Note</Button></Link>
+      </div>
     
-    <div style={{ display: 'flex', height: '75vh', width: '100%', justifyContent: 'center',
-    alignItems: 'center', flexDirection: 'column', zIndex: '10'}}>
-      <h1 style={{zIndex: 'inherit', color: 'white'}}>Welcome to VNote</h1>
-      <Title style={{zIndex: 'inherit', color: 'white', textAlign: 'center'}}>Create, save, edit notes quickly</Title>
-      <div style={{flexDirection: 'row'}}>
-      <Link href="/register"><Button type="primary" style={{marginRight: '20px'}}>Register</Button></Link>
-      <Link href="/login"><Button type="default">Login</Button></Link>
-      </div>
-      </div>
-
     </div>
   );
 }

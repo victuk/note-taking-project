@@ -23,6 +23,22 @@ a {
   display: none;
 }
 
+::-webkit-scrollbar {
+  width: 0.5em;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #1890ff;
+}
+
+.what-color {
+  color: white;
+}
+
+.sidebar-padding {
+  padding: 20px;
+}
+
 @media (max-width: 425px) {
   .show-on-desktop {
     display: none;
@@ -30,5 +46,13 @@ a {
 
   .show-on-mobile {
     display: block;
+  }
+
+  .what-color {
+    color: black;
+  }
+
+  .sidebar-padding {
+    padding: 0;
   }
 }
