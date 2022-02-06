@@ -20,13 +20,17 @@ const { TextArea } = Input;
 
 export default function RecipeReviewCard() {
   const router = useRouter();
+
   useEffect(async () => {
-    let isLoggedIn = await loginCheck()
+    async function fetchData(){
+      let isLoggedIn = await loginCheck()
     if(isLoggedIn) {
       
     } else {
       return router.push('/');
     }
+    }
+    fetchData();
   });
 
 
@@ -35,7 +39,7 @@ export default function RecipeReviewCard() {
     <div style={{ display: 'flex', height: '80vh', width: '100%', justifyContent: 'center',
     alignItems: 'center', flexDirection: 'column'}}>
       <h1>No Note</h1>
-      <Link href="/new-note"><Button type="primary">Add Note</Button></Link>
+      <Link href="/new-note" passHref><Button type="primary">Add Note</Button></Link>
       </div>
     
     </div>

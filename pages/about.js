@@ -36,12 +36,12 @@ export default function RecipeReviewCard() {
           </div>
         
         <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-        <Link href='https://vred.netlify.com'><GlobalOutlined className="icon-style" /></Link>
-          <Link href='https://web.facebook.com/vreddd'><FacebookFilled className="icon-style" /></Link>
-          <Link href='https://www.instagram.com/victor_p3t3r/'><InstagramFilled className="icon-style" /></Link>
-          <Link href='https://twitter.com/ukokjnr'><TwitterSquareFilled className="icon-style" /></Link>
-          <Link href='https://www.linkedin.com/in/victor-ukok/'><LinkedinFilled className="icon-style" /></Link>
-          <Link href='https://wa.me/+2348137249484'><WhatsAppOutlined className="icon-style" /></Link>
+        <Link href='https://vred.netlify.com' passHref><GlobalOutlined className="icon-style" /></Link>
+          <Link href='https://web.facebook.com/vreddd' passHref><FacebookFilled className="icon-style" /></Link>
+          <Link href='https://www.instagram.com/victor_p3t3r/' passHref><InstagramFilled className="icon-style" /></Link>
+          <Link href='https://twitter.com/ukokjnr' passHref><TwitterSquareFilled className="icon-style" /></Link>
+          <Link href='https://www.linkedin.com/in/victor-ukok/' passHref><LinkedinFilled className="icon-style" /></Link>
+          <Link href='https://wa.me/+2348137249484' passHref><WhatsAppOutlined className="icon-style" /></Link>
         </div>
         </div>
       </div>

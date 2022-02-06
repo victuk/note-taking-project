@@ -17,12 +17,15 @@ function Sidebar (props) {
   let [searchKeyword, setSearchKeyword] = useState('');
   let [searchData, setSearchData] = useState('');
 
-  useEffect(async () => {
-    let isLoggedIn = await loginCheck();
+  useEffect(() => {
+    async function fetchData() {
+      let isLoggedIn = await loginCheck();
     if(isLoggedIn) {
       let res = await axios.get('notes', {headers: {token: localStorage.getItem('notesToken')}});
     setData(res.data);
     }
+    }
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -40,7 +43,7 @@ function Sidebar (props) {
   return (
     <div>
       
-      <img src="/note-background.jpg" className="show-on-desktop" style={{zIndex: '-2', position: 'fixed'}} />
+      <Image src="/note-background.jpg" className="show-on-desktop pic" />
       
     <div className="sidebar-padding">
     <Input placeholder="Search" onChange={(e) => setSearchKeyword(e.target.value)} />
@@ -93,6 +96,9 @@ function Sidebar (props) {
           flex-direction: column;
           justify-content: center;
           border-radius: 50%;
+        }
+        .pic {
+          z-index: -2;
         }
         `}
  </style>

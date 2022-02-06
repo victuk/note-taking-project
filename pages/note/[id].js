@@ -27,8 +27,9 @@ export default function RecipeReviewCard() {
 
   // const [state, dispatch] = useReducer(counterReducer, initialstate);
 
-  useEffect(async () => {
-    let isLoggedIn = await loginCheck();
+  useEffect(() => {
+    async function fetchData() {
+      let isLoggedIn = await loginCheck();
     if(isLoggedIn) {
       if(id != undefined) {
         let res = await axios.get(`note/${id}`, {headers: {token: localStorage.getItem('notesToken')}});
@@ -39,8 +40,8 @@ export default function RecipeReviewCard() {
     } else {
       return router.push('/');
     }
-
-    
+    }
+    fetchData();
 
   }, [id]);
 

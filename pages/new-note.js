@@ -36,11 +36,14 @@ export default function RecipeReviewCard() {
     }
   }
 
-  useEffect(async () => {
-    let isLoggedIn = await loginCheck();
+  useEffect(() => {
+    async function fetchData() {
+      let isLoggedIn = await loginCheck();
     if(!isLoggedIn) {
       return router.push('/');
     }
+    }
+    fetchData();
   });
 
   return (

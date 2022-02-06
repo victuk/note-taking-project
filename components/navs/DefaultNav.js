@@ -22,14 +22,17 @@ export default function ResponsiveAppBar () {
     setVisible(false);
   };
 
-  useEffect(async () => {
-    let isLoggedIn = await loginCheck();
+  useEffect(() => {
+    async function fetchData() {
+      let isLoggedIn = await loginCheck();
     if(isLoggedIn) {
       let res = await axios.get('users/profile', {headers: {token: localStorage.getItem('notesToken')}});
     let cappedName = res.data.user.fullName;
     setName(titleCase(cappedName));
     }
-  });
+    }
+    fetchData();
+  }, []);
 
   function logOut() {
     localStorage.removeItem('notesToken');
@@ -48,14 +51,14 @@ export default function ResponsiveAppBar () {
     borderBottom: '1px solid #e5e5e5',
     justifyContent: 'space-between'
   }}>
-      <h2 style={{color: '#1890ff'}}><Link href="/notes">VNote</Link></h2>
-      <div className="show-on-desktop">Welcome {name} <Link href='/profile/'><Button type="primary">View Profile</Button></Link> <Button type="default" onClick={logOut}>Log Out</Button></div>
+      <h2 style={{color: '#1890ff'}}><Link href="/notes" passHref>VNote</Link></h2>
+      <div className="show-on-desktop">Welcome {name} <Link href='/profile/' passHref><Button type="primary">View Profile</Button></Link> <Button type="default" onClick={logOut}>Log Out</Button></div>
       <div className="show-on-mobile"><Button type="link" onClick={showDrawer}>
         <MenuOutlined />
       </Button></div>
       <Drawer title={'Welcome ' + name} placement="right" onClose={onClose} visible={visible}>
       
-      <p><Link href='/new-note'><Button type="primary" style={{ width: '100%' }}>Add Note</Button></Link></p>
+      <p><Link href='/new-note' passHref><Button type="primary" style={{ width: '100%' }}>Add Note</Button></Link></p>
         <p>
         <Row gutter={16}>
           <Col span={12}><Link href="/profile"><Button type="primary" style={{ width: '100%' }}>View Profile</Button></Link></Col>

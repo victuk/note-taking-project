@@ -68,14 +68,16 @@ export default function Post() {
     // console.log(router.query.id);
   }
 
-  useEffect(async () => {
-    let isLoggedIn = await loginCheck();
+  useEffect(() => {
+    async function fetchData() {
+      let isLoggedIn = await loginCheck();
     if(isLoggedIn) {
       fetchDetails();
     } else {
       return router.push('/');
     }
-    
+    }
+    fetchData();
   }, []);
 
   return(
@@ -85,11 +87,11 @@ export default function Post() {
     alignItems: 'center', flexDirection: 'column'}}>
       {userDetails.picture ? (
         <div style={{marginBottom: '20px'}}>
-          <img src={userDetails.picture} style={{borderRadius: '50%', width: '100px', height:'100px'}} />
+          <Image src={userDetails.picture} className='profile-picture' height='100' width='100' />
         </div>
       ) : (
         <div>
-          <img src="/avatar.webp" style={{borderRadius: '50%', width: '100px', height:'100px'}} />
+          <Image src="/avatar.webp" className='profile-picture' height='100' width='100' />
         </div>
       )}
 {/* <Form>
@@ -121,6 +123,16 @@ export default function Post() {
         <h2>Email: {userDetails.email}</h2>
       
       </div>
+      <style>
+      {`
+        .icon-style {
+          font-size: 40px;
+        }
+        .profile-picture {
+          border-radius: 50%;
+        }
+        `}
+         </style>
     </div>
   );
 }

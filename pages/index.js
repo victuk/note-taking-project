@@ -27,8 +27,8 @@ export default function RecipeReviewCard() {
       <h1 style={{zIndex: 'inherit', color: 'white'}}>Welcome to VNote</h1>
       <Title style={{zIndex: 'inherit', color: 'white', textAlign: 'center'}}>Create, save, edit notes quickly</Title>
       <div style={{flexDirection: 'row'}}>
-      <Link href="/register"><Button type="primary" style={{marginRight: '20px'}}>Register</Button></Link>
-      <Link href="/login"><Button type="default">Login</Button></Link>
+      <Link href="/register" passHref><Button type="primary" style={{marginRight: '20px'}}>Register</Button></Link>
+      <Link href="/login" passHref><Button type="default">Login</Button></Link>
       </div>
       </div>
 
