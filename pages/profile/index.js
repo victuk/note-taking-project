@@ -49,12 +49,9 @@ export default function Post() {
     let nameResponse = await axios.post('users/change-name', {
       fullName: newName
     });
-
-    console.log(nameResponse);
     
     if(nameResponse.status == 200) {
       editFullName(false);
-      console.log(nameResponse);
     }
   }
 
@@ -87,11 +84,11 @@ export default function Post() {
     alignItems: 'center', flexDirection: 'column'}}>
       {userDetails.picture ? (
         <div style={{marginBottom: '20px'}}>
-          <Image src={userDetails.picture} className='profile-picture' height='100' width='100' />
+          <Image src={userDetails.picture} className='profile-picture' height='100' width='100' alt='Profile Picture' />
         </div>
       ) : (
         <div>
-          <Image src="/avatar.webp" className='profile-picture' height='100' width='100' />
+          <Image src="/avatar.webp" className='profile-picture' height='100' width='100' alt='Profile Picture' />
         </div>
       )}
 {/* <Form>

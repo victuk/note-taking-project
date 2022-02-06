@@ -35,10 +35,10 @@ export default function ResponsiveAppBar () {
     minHeight: '50px',
     justifyContent: 'space-between'
   }}>
-      <Link href="/"><h2 style={{color: 'white', zIndex: '100', pointer: 'cursor'}}>VNote</h2></Link>
+      <Link href="/" passHref><h2 style={{color: 'white', zIndex: '100', pointer: 'cursor'}}>VNote</h2></Link>
       <div style={{color: 'white', zIndex: '100'}}> 
-      <Link href='/'><Button type="link"><HomeFilled /></Button></Link>
-       <Link href='/about'><Button type="link" style={{border: '1px solid blue'}}>About</Button></Link></div>
+      <Link href='/' passHref><Button type="link"><HomeFilled /></Button></Link>
+       <Link href='/about' passHref><Button type="link" style={{border: '1px solid blue'}}>About</Button></Link></div>
       <style jsx>
         {`
 

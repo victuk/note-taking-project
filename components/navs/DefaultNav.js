@@ -61,7 +61,7 @@ export default function ResponsiveAppBar () {
       <p><Link href='/new-note' passHref><Button type="primary" style={{ width: '100%' }}>Add Note</Button></Link></p>
         <p>
         <Row gutter={16}>
-          <Col span={12}><Link href="/profile"><Button type="primary" style={{ width: '100%' }}>View Profile</Button></Link></Col>
+          <Col span={12}><Link href="/profile" passHref><Button type="primary" style={{ width: '100%' }}>View Profile</Button></Link></Col>
           <Col span={12}><Button type="default" style={{ width: '100%' }} onClick={logOut}>Log Out</Button></Col>
         </Row>
         </p>
