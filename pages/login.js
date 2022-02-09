@@ -15,10 +15,17 @@ export default function RecipeReviewCard() {
     let res = await axios.post('login', values);
     setProcessing(true);
     if(res.status == 200) {
+    	if(res.data.status == false) {
+      	message.error('Invalid Username or password');
+      } else {
       message.success('Success');
+      console.log(res)
+      
       setProcessing(false);
       localStorage.setItem('notesToken', res.data.token);
       router.push('/notes');
+      }
+      
     }
    } catch (e) {
     message.error('An error occured');
