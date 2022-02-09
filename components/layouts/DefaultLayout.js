@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import axios from 'axios'
-import Head from 'next/head'
 import { Row, Col } from 'antd';
 import React, { useState, useEffect } from 'react'
 import Nav from '../navs/DefaultNav'
