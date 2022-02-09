@@ -16,16 +16,17 @@ export default function RecipeReviewCard() {
     setProcessing(true);
     if(res.status == 200) {
     	if(res.data.status == false) {
-      	message.error('Invalid Username or password');
+      	message.error(res.data.status);
       } else {
       message.success('Success');
-      console.log(res)
       
       setProcessing(false);
       localStorage.setItem('notesToken', res.data.token);
       router.push('/notes');
       }
       
+    } else {
+    message.error('An error occured');
     }
    } catch (e) {
     message.error('An error occured');

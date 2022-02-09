@@ -10,16 +10,20 @@ export default function RecipeReviewCard() {
   const router = useRouter();
   const [processing, setProcessing] = useState(false);
   const onFinish = async (values) => {
-    message.success('This is a success message');
-   console.log('Success:', values);
    try{
     let res = await axios.post('register', values);
-    console.log(res);
     setProcessing(true);
     if(res.status == 200) {
-      message.success('Success');
+    if(res.data.status == false) {
+    message.error(res.data.message);
+    } else {
+    message.success('Success');
       setProcessing(false);
       router.push('/login');
+    }
+      
+    } else {
+    message.error('An error occured');
     }
    } catch (e) {
     message.error('An error occured');
