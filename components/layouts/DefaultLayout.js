@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import axios from 'axios'
+import Head from 'next/head'
 import { Row, Col } from 'antd';
 import React, { useState, useEffect } from 'react'
 import Nav from '../navs/DefaultNav'
@@ -10,6 +11,10 @@ import Sidebar from '../Sidebar'
 export default function DefaultLayout({children}) {
   return (
     <div style={{height: '100vh'}}>
+      <Head>
+        <title>VNote</title>
+        <link rel='icon' href='/vnote.png' />
+      </Head>
     <Nav />
 
 <main>
