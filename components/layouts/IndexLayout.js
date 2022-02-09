@@ -14,7 +14,7 @@ export default function DefaultLayout({children}) {
       </Head>
     <Nav />
    
-    <Image src="/note-background.jpg" layout="fill" style={{zIndex: '2', minWidth: '800px'}} />
+    <Image src="/note-background.jpg" layout="fill" className="image-design-g" />
 
 <main>
 
